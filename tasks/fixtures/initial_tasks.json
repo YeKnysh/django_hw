@@ -1,0 +1,4 @@
+[
+  {"model":"tasks.category","pk":1,"fields":{"name":"Work"}},
+  {"model":"tasks.category","pk":2,"fields":{"name":"Personal"}}
+]

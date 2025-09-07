@@ -1,0 +1,39 @@
+[
+  {
+    "model": "tasks.task",
+    "pk": 101,
+    "fields": {
+      "title": "Demo task: prepare presentation",
+      "description": "Тестовая задача из фикстуры",
+      "status": "new",
+      "deadline": "2025-09-08T18:00:00Z",
+      "created_at": "2025-09-07T09:00:00Z",
+      "created_on": "2025-09-07",
+      "categories": [1, 2]
+    }
+  },
+  {
+    "model": "tasks.subtask",
+    "pk": 201,
+    "fields": {
+      "title": "Collect materials",
+      "description": "Собрать источники и данные",
+      "task": 101,
+      "status": "in_progress",
+      "deadline": "2025-09-07T16:00:00Z",
+      "created_at": "2025-09-07T09:30:00Z"
+    }
+  },
+  {
+    "model": "tasks.subtask",
+    "pk": 202,
+    "fields": {
+      "title": "Design slides",
+      "description": "Сделать слайды в стиле компании",
+      "task": 101,
+      "status": "pending",
+      "deadline": "2025-09-07T18:00:00Z",
+      "created_at": "2025-09-07T09:45:00Z"
+    }
+  }
+]
