@@ -112,3 +112,22 @@ python manage.py loaddata tasks/fixtures/demo_task.json
 
 - Номер порта (например, **8005**) относится только к dev-серверу и **не влияет** на репозиторий. Все ДЗ идут в этом же репо.
 - Переключение на MySQL доступно через переменные окружения (`MYSQL=1` и соответствующие `MYSQL_*`).
+
+
+## HW4 — Task Manager: ORM CRUD (порт 8005)
+
+**Что сделано**
+- Создание записей через Django ORM: `Task "Prepare presentation"` и две `SubTask`.
+- Чтение:
+  - все `Task` со статусом `"New"`;
+  - все `SubTask` со статусом `"Done"` с просроченным `deadline`.
+- Обновление:
+  - статус `Task "Prepare presentation"` → `"In progress"`;
+  - `deadline` у `SubTask "Gather information"` → на 2 дня назад;
+  - описание `SubTask "Create slides"` → `"Create and format presentation slides"`.
+- Удаление каскадом: `Task "Prepare presentation"` и все её подзадачи.
+
+**Как воспроизвести (PyCharm / терминал)**
+```bash
+python manage.py shell
+# вставить блок из README "HW4: Django shell скрипт" (см. ниже) и нажать Enter
