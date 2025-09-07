@@ -57,12 +57,54 @@ python manage.py loaddata tasks/fixtures/demo_task.json
 
 ---
 
+## HW3
+
+**Что сделано**
+- В моделях:
+  - Добавлены методы `__str__` для `Category`, `Task`, `SubTask`.
+  - Добавлены `class Meta` для всех моделей:
+    - `db_table` (`task_manager_category`, `task_manager_task`, `task_manager_subtask`),
+    - `ordering`,
+    - `verbose_name`, `verbose_name_plural`.
+  - Уникальность:
+    - `Category.name` → `unique=True`.
+    - `Task` → `UniqueConstraint(title, created_on)` — название уникально в пределах дня.
+- В админке:
+  - `CategoryAdmin`: список, поиск, сортировка, пагинация.
+  - `TaskAdmin`: список с колонкой «Категории», поиск по названию/описанию/категориям, фильтры (`status`, `categories`, `created_at`, `deadline`), пагинация, `date_hierarchy`, **inline SubTask**.
+  - `SubTaskAdmin`: список, поиск по названию и `task__title`, фильтры, сортировка, `date_hierarchy`.
+- Миграции применены, таблицы переименованы в `task_manager_*`.
+- Данные протестированы в админке.
+
+**Как запустить (HW3, порт 8005)**
+~~~bash
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser  # при необходимости
+python manage.py runserver 8005
+~~~
+
+**(Опционально) Загрузка фикстур**
+~~~bash
+python manage.py loaddata tasks/fixtures/initial_tasks.json
+python manage.py loaddata tasks/fixtures/demo_task.json
+~~~
+
+**Проверка**
+- В админке видны разделы: **Задачи / Категории / Подзадачи**.
+- Работают поиск, фильтры, сортировка.
+- В `Task` можно добавлять `SubTask` через inline.
+- Попытка создать вторую задачу с тем же `title` в один и тот же день вызывает ошибку уникальности (ожидаемо).
+
+---
+
 ## Проверка работоспособности (кратко)
 
 - В админке видны разделы **Tasks → Задачи/Категории/Подзадачи**.
 - В списке задач работает поиск и фильтры (`Статус`, `Создано (дата)`, `Категории`).
-- Открывая задачу из фикстуры, видно две подзадачи в inline.
-- Попытка создать вторую задачу с тем же `title` в тот же день вызывает ошибку уникальности (ожидаемо).
+- Открывая задачу из фикстуры, видно подзадачи в inline.
+- Попытка создать вторую задачу с тем же `title` в тот же день вызывает ошибку уникальности.
 
 ---
 
