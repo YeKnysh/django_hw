@@ -19,7 +19,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("title", "status", "deadline", "created_at", "categories_list")
+    # --- HW11: показываем короткое имя в списке (10 символов + '...') ---
+    list_display = ("short_title", "status", "deadline", "created_at", "categories_list")
     search_fields = ("title", "description", "categories__name")
     list_filter = ("status", "categories", "created_at", "deadline")
     ordering = ("-created_at",)
@@ -41,3 +42,14 @@ class SubTaskAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
     list_per_page = 25
     date_hierarchy = "created_at"
+
+    # --- HW11: admin action: массово пометить как Done ---
+    @admin.action(description="Mark selected subtasks as Done")
+    def make_done(self, request, queryset):
+        try:
+            updated = queryset.update(status=SubTask.Status.DONE)
+        except Exception:
+            updated = queryset.update(status="done")
+        self.message_user(request, f"Updated {updated} subtasks to Done.")
+
+    actions = ["make_done"]

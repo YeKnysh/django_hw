@@ -82,6 +82,12 @@ class Task(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    # --- HW11: helper for admin list (короткое имя в списке) ---
+    @property
+    def short_title(self) -> str:
+        t = self.title or ""
+        return t if len(t) <= 10 else f"{t[:10]}..."
+
 
 class SubTask(models.Model):
     """Подзадача, относится к конкретной Task (один-ко-многим)."""

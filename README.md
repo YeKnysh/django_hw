@@ -5,7 +5,7 @@
 
 ---
 
-## HW1
+## HW1 (7)
 
 **Сделано**
 - Создан Django-проект: `django_hw`.
@@ -24,7 +24,7 @@ python manage.py runserver
 
 ---
 
-## HW2
+## HW2 (8)
 
 **Что добавлено**
 - Приложение `tasks`.
@@ -57,7 +57,7 @@ python manage.py loaddata tasks/fixtures/demo_task.json
 
 ---
 
-## HW3
+## HW3 (9)
 
 **Что сделано**
 - В моделях:
@@ -114,7 +114,7 @@ python manage.py loaddata tasks/fixtures/demo_task.json
 - Переключение на MySQL доступно через переменные окружения (`MYSQL=1` и соответствующие `MYSQL_*`).
 
 
-## HW4 — Task Manager: ORM CRUD (порт 8005)
+## HW4(10) — Task Manager: ORM CRUD (порт 8005)
 
 **Что сделано**
 - Создание записей через Django ORM: `Task "Prepare presentation"` и две `SubTask`.
@@ -131,3 +131,19 @@ python manage.py loaddata tasks/fixtures/demo_task.json
 ```bash
 python manage.py shell
 # вставить блок из README "HW4: Django shell скрипт" (см. ниже) и нажать Enter
+
+
+## HW5(11) — Admin inlines, short title in list, admin action
+
+ Инлайн-формы `SubTask` на странице `Task` в админке (`TabularInline`): можно добавлять/редактировать подзадачи прямо на странице задачи.
+- В списке задач отображается **укороченное имя** (`short_title`: первые 10 символов + `…`). Полное название задачи сохраняется для выпадающих списков выбора родителя (через `__str__` модели).
+- Кастомный **admin action** в `SubTaskAdmin`: массово переводит выделенные подзадачи в статус **Done**.
+
+**Проверка**
+1. `/admin/` → Tasks → открыть задачу → блок SubTasks виден, можно добавлять строки.
+2. `/admin/` → Task list: у длинных названий видно усечённое поле `short_title`.
+3. `/admin/` → SubTasks → выделить несколько → Actions: *Mark selected subtasks as Done* → статусы меняются на `Done`.
+
+**Технические детали**
+- `tasks/models.py`: добавлено `Task.short_title` (`@property`) — миграции не требуются.
+- `tasks/admin.py`: `SubTaskInline` подключён к `TaskAdmin`; `list_display` использует `short_title`; в `SubTaskAdmin` добавлен `make_done`.
